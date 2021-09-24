@@ -1,0 +1,30 @@
+body {
+    background-color: gray;
+    margin: 0px;
+}
+
+h1 {
+    font-family: 'Work Sans';
+    font-weight: lighter;
+    text-align: center;
+    padding-top: 20px;
+}
+
+#container {
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+}
+
+#sidebar {
+    margin: 0px;
+    height: 100%;
+    width: 10%;
+    border: solid red 3px;
+}
+
+#content {
+    height: 100%;
+    width: 90%;
+    border: 3px solid blue;
+}

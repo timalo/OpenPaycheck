@@ -1,12 +1,14 @@
 body {
-    background-color: gray;
+    background-color: gray; 
     margin: 0px;
 }
 
 h1 {
     font-family: 'Work Sans';
     font-weight: lighter;
-    text-align: center;
+    position: relative;
+    left: 10px;
+    font-weight: bolder;
     padding-top: 20px;
 }
 
@@ -17,14 +19,80 @@ h1 {
 }
 
 #sidebar {
+    background-color: rgb(60, 70, 80);
     margin: 0px;
     height: 100%;
-    width: 10%;
-    border: solid red 3px;
+    width: 15%;
+    border: solid red 1px;
+    display: flex;
+    flex-direction: column;
+    column-count: 1;
 }
 
 #content {
+    background-color: rgb(90, 100, 110);
     height: 100%;
     width: 90%;
     border: 3px solid blue;
+}
+
+.menuItem {
+    width: 100%;
+    height: 80px;
+    max-height: 80px;
+    text-align: center;
+    border: 2px black solid;
+    background-color: white;
+    font-size: 26px;
+    font-family: "Arial";
+    line-height: 80px;
+}
+
+#content p{
+    position: relative;
+    text-align: center;
+    font-family: 'Work Sans';
+    color: white;
+    font-size: 32px;
+    font-weight: lighter;
+}
+
+#buttonDiv {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 15%;
+    height: 20%;
+}
+
+#buttonDiv #joinBtn {
+    border-radius: 30px;
+    border: 5px solid blue;
+    font-size: 20px;
+    height: 30%;
+    width: 20%;
+    margin: 10px 0px 10px 0px;
+    position: relative;
+    left: 40%;
+}
+
+#buttonDiv #createBtn {
+    border-radius: 30px;
+    color: white;
+    font-size: 20px;
+    background-color: blue;;
+    border: 5px solid white;
+    height: 30%;
+    width: 20%;
+    margin: 10px 0px 10px 0px;
+    position: relative;
+    left: 40%;
+}
+
+.grow {
+    transition: all .2s ease-in-out;
+}
+
+.grow:hover {
+    transform: scale(1.1);
 }

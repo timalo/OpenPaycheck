@@ -22,13 +22,13 @@ $ git pull
 $ git checkout -b "branchin_nimi"
 ```
 4. Tee muutos
-  4.1. Lisää muutokset staging arealle commitointia varten:
-  ```
-  $ git add "tiedoston_nimi"
-  ```
+5. Lisää muutos staging arealle commitointia varten
+```
+$ git add "tiedoston_nimi"
+```
 6. Tee lokaalicommit/committeja:
 ```
-$ git commit -m "kuvaava_viesti"
+$ git commit
 ```
 6. Kun haluat puskea branchisi gittiin:
 ```

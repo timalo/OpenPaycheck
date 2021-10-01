@@ -38,3 +38,14 @@ Huom! Aina ensimmäisellä kerralla uudessa branchissa, joutuu käyttämään:
 ```
 $ git push --set-upstream origin "branchin_nimi"
 ```
+
+Hyödyllisiä komentoja:
+
+1. Katso tämänhetkinen tila. Mitä tiedostoja muokattu, tms. Kannattaa lyödä vähän joka väliin
+```
+$ git status
+```
+2. Katso, missä branchissa olet ja mitä muita brancheja on koneellasi
+```
+$ git branch
+```

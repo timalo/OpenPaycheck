@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <title>OpenPayCheck</title>
+        <script src="jquery.js"></script>
+    </head>
+<body>
+    <script src="main.js"></script>
+    <h1>OpenPayCheck</h1>
+    <div id="container">
+        <div id="sidebar">
+            <div id="menuItem1" class="menuItem">
+                Menuitem
+            </div>
+            <div id="menuItem2" class="menuItem">
+                Menuitem 2
+            </div>
+            <div id="menuItem2" class="menuItem">
+                Test menuitem 3
+            </div>
+        </div>
+        <div id="content">
+            <p><br> Enter your and other group members information.</p>
+            <form action="/action_page.php">
+                <label for="fname">Group name:</label>
+                <input type="text" id="fname" name="fname"><br><br>
+                <label for="email">Your email address:</label>
+                <input type="text" id="lname" name="lname"><br><br>
+                <p><br>Give other group members email adresses:</p>
+                
+                <form action="/action_page.php">
+                <label for="quantity">Give group size:</label>
+
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <input id="my_input" name="test1" type="text" value="">
+
+                <button data-toggle="modal" data-target="#myModal" onclick="add_inputs()" id="add_input1" name="" type="button">Enter</button>
+
+                <div id="rolonum">
+
+                </div>
+                </form>
+                <input type="submit" value="Submit">
+              </form>
+            <h1>
+                <?php
+                
+                if($_POST["message"]) {
+                
+                mail("ville.lahdenp@hotmail.fi", "OpenPayCheck Invitation",
+                
+                $_POST["Tällä linkillä pääset vertailemaan palkkatietoja ryhmässä:"]. "From: ville.lahdenp@hotmail.fi");
+                }
+                
+                ?>
+                </h1>
+                
+                <form method="post" action="emailform.php">
+                
+                <textarea name="message"></textarea>
+                
+                <input type="submit">
+                
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+
+</body>
+</html>

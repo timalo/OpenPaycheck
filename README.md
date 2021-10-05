@@ -22,13 +22,13 @@ $ git pull
 $ git checkout -b "branchin_nimi"
 ```
 4. Tee muutos
-  4.1. Lisää muutokset staging arealle commitointia varten:
-  ```
-  $ git add "tiedoston_nimi"
-  ```
+5. Lisää muutos staging arealle commitointia varten
+```
+$ git add "tiedoston_nimi"
+```
 6. Tee lokaalicommit/committeja:
 ```
-$ git commit -m "kuvaava_viesti"
+$ git commit
 ```
 6. Kun haluat puskea branchisi gittiin:
 ```
@@ -37,4 +37,15 @@ $ git push
 Huom! Aina ensimmäisellä kerralla uudessa branchissa, joutuu käyttämään:
 ```
 $ git push --set-upstream origin "branchin_nimi"
+```
+
+Hyödyllisiä komentoja:
+
+1. Katso tämänhetkinen tila. Mitä tiedostoja muokattu, tms. Kannattaa lyödä vähän joka väliin
+```
+$ git status
+```
+2. Katso, missä branchissa olet ja mitä muita brancheja on koneellasi
+```
+$ git branch
 ```

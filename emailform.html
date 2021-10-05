@@ -24,16 +24,15 @@
             <p><br> Enter your and other group members information.</p>
             <form action="/action_page.php">
                 <label for="fname">Group name:</label>
-                <input type="text" id="fname" name="fname"><br><br>
+                <input type="text" id="groupName" name="fname"><br><br>
                 <label for="email">Your email address:</label>
-                <input type="text" id="lname" name="lname"><br><br>
+                <input type="text" id="email_1" name="lname"><br><br>
                 <p><br>Give other group members email adresses:</p>
                 
                 <form action="/action_page.php">
                 <label for="quantity">Give group size:</label>
 
 
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                 <input id="my_input" name="test1" type="text" value="">
 
                 <button data-toggle="modal" data-target="#myModal" onclick="add_inputs()" id="add_input1" name="" type="button">Enter</button>
@@ -42,7 +41,9 @@
 
                 </div>
                 </form>
-                <input type="submit" value="Submit">
+
+                <button onclick="returnText()">Submit</button>
+
               </form>
             <h1>
                 <?php

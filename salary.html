@@ -5,7 +5,7 @@
         <script src="jquery.js"></script>
     </head>
     <body>
-        <h1><a href="index.html" class="frontPageLink grow">OpenPayCheck</a></h1>
+        <h1><a href="index.html" class="frontPageLink">OpenPayCheck</a></h1>
         <div id="container">
             <div id="sidebar">
                 <div id="menuItem1" class="menuItem">
@@ -22,15 +22,19 @@
                 <p>Please enter your salary information.</p>
                 <div class="infoDiv">
                     <div id="infoContent">
-                        Enter your salary as monthly or hourly wage.<br>
+                        Enter your salary as hourly, monthly, or yearly wage.<br>
                         <div id="salaryInputDiv">
-                            <input type="number" id="salaryInput" min=0 step=50 required> <span style="color:green;"> €</span> / 
-                            <select name="salaryTime" id="salaryTime">
+                            <input type="number" id="salaryInput" min=0 step=50> <span style="color:green;"> €</span> / 
+                            <select name="salaryTime" id="salaryTime" onchange="toggleHours()">
                                 <option value="hour">Hour</option>
-                                <option value="month">Month</option>
+                                <option selected value="month">Month</option>
                                 <option value="year">Year</option>
                             </select> </br>
-                            <button id="submitSalaryBtn">Submit</button>
+                            <div id="hoursPerWeek" style="font-size: 22">
+                                How many hours per month do you work?<br>
+                                <input type="number" min=1 style="width:15%; margin-top: 10px"> h
+                            </div>
+                            <button onclick="handleSalary()" id="submitSalaryBtn">Submit</button>
                         </div>
                     </div>
                 </div>

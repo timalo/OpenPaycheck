@@ -9,7 +9,7 @@ h1 {
     position: relative;
     left: 10px;
     font-weight: bolder;
-    padding-top: 10px;
+    margin-top: 15px;
 }
 
 #container {
@@ -33,15 +33,18 @@ h1 {
     text-decoration: none;
 }
 
-.frontPageLink {
-    color: black;
-}
 #content {
     background-color: rgb(90, 100, 110);
     height: 100%;
     width: 90%;
     text-align: center;
     position: relative;
+}
+
+#hoursPerWeek {
+    background-color: rgb(150,150,150);
+    margin-top: 30px;
+    display:none;
 }
 
 .menuItem {

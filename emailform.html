@@ -6,7 +6,6 @@
         <script src="jquery.js"></script>
     </head>
 <body>
-    <script src="main.js"></script>
     <h1>OpenPayCheck</h1>
     <div id="container">
         <div id="sidebar">
@@ -22,29 +21,25 @@
         </div>
         <div id="content">
             <p><br> Enter your and other group members information.</p>
-            <form action="/action_page.php">
+            <form action="salary.html">
                 <label for="fname">Group name:</label>
                 <input type="text" id="fname" name="fname"><br><br>
                 <label for="email">Your email address:</label>
-                <input type="text" id="lname" name="lname"><br><br>
+                <input type="text" id="email" name="email"><br><br>
                 <p><br>Give other group members email adresses:</p>
                 
-                <form action="/action_page.php">
                 <label for="quantity">Give group size:</label>
 
 
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-                <input id="my_input" name="test1" type="text" value="">
+                <input id="my_input" name="quantity" type="number" min=2 max=100>
 
                 <button data-toggle="modal" data-target="#myModal" onclick="add_inputs()" id="add_input1" name="" type="button">Enter</button>
 
                 <div id="rolonum">
 
                 </div>
-                </form>
                 <input type="submit" value="Submit">
-              </form>
-            <h1>
+            </form>
                 <?php
                 
                 if($_POST["message"]) {
@@ -69,6 +64,6 @@
         </div>
     </div>
 
-
+    <script src="main.js"></script>
 </body>
 </html>

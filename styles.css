@@ -9,7 +9,7 @@ h1 {
     position: relative;
     left: 10px;
     font-weight: bolder;
-    padding-top: 20px;
+    margin-top: 15px;
 }
 
 #container {
@@ -23,17 +23,28 @@ h1 {
     margin: 0px;
     height: 100%;
     width: 15%;
-    border: solid red 1px;
     display: flex;
     flex-direction: column;
     column-count: 1;
+}
+
+.frontPageLink {
+    color: black;
+    text-decoration: none;
 }
 
 #content {
     background-color: rgb(90, 100, 110);
     height: 100%;
     width: 90%;
-    border: 3px solid blue;
+    text-align: center;
+    position: relative;
+}
+
+#hoursPerWeek {
+    background-color: rgb(150,150,150);
+    margin-top: 30px;
+    display:none;
 }
 
 .menuItem {
@@ -65,7 +76,7 @@ h1 {
     height: 20%;
 }
 
-#buttonDiv #joinBtn {
+/* #buttonDiv #joinBtn {
     border-radius: 30px;
     border: 5px solid blue;
     font-size: 20px;
@@ -74,19 +85,47 @@ h1 {
     margin: 10px 0px 10px 0px;
     position: relative;
     left: 40%;
+} */
+
+.infoDiv {
+    background-color: lightgray;
+    height: 14cm;
+    width: 12cm;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+    font-size: 26;
 }
 
 #buttonDiv #createBtn {
     border-radius: 30px;
     color: white;
     font-size: 20px;
-    background-color: blue;;
+    background-color: blue;
     border: 5px solid white;
-    height: 30%;
-    width: 20%;
     margin: 10px 0px 10px 0px;
     position: relative;
-    left: 40%;
+}
+
+#infoContent {
+    padding: 20px;
+    text-align: center;
+}
+
+#salaryInputDiv {
+    height: 100%;
+    padding-top: 10px;
+}
+
+#submitSalaryBtn {
+    width: 35%;
+    height: 10%;
+    font-size: 22px;
+    font-weight:bold;
+    background-color: green;
+    border: black 3px solid;
+    border-radius: 15px;
+    margin-top: 20%;
 }
 
 .grow {

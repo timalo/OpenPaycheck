@@ -1,14 +1,15 @@
 <?php
 
-$result = $_COOKIE['kookie'];
 
+  
 
-$subject = "OpenPaycheck Invitation";
-$message = "You have OpenPayCheck invitation. Follow this link to compare salary information: ";
+$from = "tonykfc@lkybast.com";
+$to = "ville.lahdenp@hotmail.fi";
+$subject = "PHP Mail Test script";
+$message = "This is a test to check the PHP Mail functionality";
 $headers = "From:" . $from;
-mail("ville.lahdenp@hotmail.fi",$subject,$result, $headers);
-echo "Email have been sent to group members.";
-
+mail($to,$subject,$message, $headers);
+echo "Test email sent";
 
 
 

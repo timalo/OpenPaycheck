@@ -42,27 +42,8 @@
 
                 <button onclick="returnText()">Submit</button>
 
-              </form>
-            <h1>
-                <?php
-                
-                if($_POST["message"]) {
-                
-                mail("ville.lahdenp@hotmail.fi", "OpenPayCheck Invitation",
-                
-                $_POST["Tällä linkillä pääset vertailemaan palkkatietoja ryhmässä:"]. "From: ville.lahdenp@hotmail.fi");
-                }
-                
-                ?>
-                </h1>
-                
-                <form method="post" action="emailform.php">
-                
-                <textarea name="message"></textarea>
-                
-                <input type="submit">
-                
-                </form>
+             
+
             </div>
             
         </div>

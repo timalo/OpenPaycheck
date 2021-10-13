@@ -2,7 +2,7 @@
 
 $perse = $_POST['email'];
 echo "JEEE ";
-echo $perse[2];
+
 echo implode(", ", $perse);
 $from = "tonykfc@lkybast.com";
 $to = "limpeh@lkybast.com";

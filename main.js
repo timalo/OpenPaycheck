@@ -38,8 +38,6 @@ function returnText(){
   }
   
 
-
-
   for (var i = 1; i <= n; i++) {
     arr.push(document.getElementById("rolo_add" + i).value);
 }

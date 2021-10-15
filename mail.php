@@ -1,17 +1,21 @@
 <?php
 
-$perse = $_POST['email'];
+$to = $_POST['email'];
 echo "JEEE ";
-echo $perse[2];
-echo implode(", ", $perse);
+
+echo implode(", ", $to);
+
 $from = "tonykfc@lkybast.com";
-$to = "limpeh@lkybast.com";
+
 $subject = "PHP Mail Test script";
-$message = "This is a test to check the PHP Mail functionality";
+$group = $_POST['group_name'];
+echo $group;
+$message = "You have been invited to compare salary information in a group: $group  Follow this link to give your information: http://localhost:8888/OpenPaycheck/salary.html";
+
 $headers = "From:" . $from;
 
-for ($i = 0; $i < count($perse); $i++) {
-    mail($perse[$i],$subject,$message, $headers);
+for ($i = 0; $i < count($to); $i++) {
+    mail($to[$i],$subject,$message, $headers);
 }
 
 echo "Test email sent";

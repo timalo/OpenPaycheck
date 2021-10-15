@@ -1,13 +1,22 @@
 function add_inputs() {
   n = $('#my_input').val();
   $("#emailform").html('');
+  $("#emailform").append('<label for="group_name">Group name:</label>');
+  $("#emailform").append('<input type="text" name="group_name" value="" ><br>');
   for (var i = 1; i <= n; i++) {
     $("#emailform").append('<span>Member ' + i + ' </span><input id="rolo_add' + i + '" name="email[]" type="email" value="" required/><br>');
+    
 
     }
     $("#emailform").append('<input type="submit" value="Submit">');
   }
 
+
+
+  
+
+
+/*
 function returnText(){
   console.log("paska");
   let groupName = document.getElementById("groupName").value;
@@ -36,3 +45,4 @@ function returnText(){
 }
   alert(arr);
 }  
+*/

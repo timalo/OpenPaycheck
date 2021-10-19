@@ -85,10 +85,6 @@
                     {
                         echo "Records added successfully.";
                     }
-                
-
-
-
 
                     $email_to = "SELECT userEmail FROM users WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($email_to);
@@ -107,15 +103,13 @@
                     $from = "openpaycheck.send@gmail.com";
                     $headers = "From:" . $from;
                     $subject = "OpenPayCheck Results";
-                    $message = "Results of salary comparison of a group: $groupname can be found at: http://localhost:8888/OpenPaycheck/results.php?num=$memberNum";
+                    $message = "Results of salary comparison of a group: $groupname can be found at: http://localhost/OpenPaycheck/results.php?num=$memberNum";
                     mail($to,$subject,$message, $headers);
 
                     $conn->close();
 
-                    header("Location: http://localhost:8888/OpenPaycheck/results.php?num=$memberNum");
-
+                    header("Location: http://localhost/OpenPaycheck/results.php?num=$memberNum");
                 }
-
                 ?>
 
                 <p>Please enter your salary information.</p>
@@ -135,7 +129,6 @@
                             </div> 
                             <input type="submit" name="submit" value="Submit">
                             <!-- <button onclick="handleSalary()" id="submitSalaryBtn">Submit</button> -->
-                            
                         </form>
                     </div>
                 </div>

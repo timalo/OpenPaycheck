@@ -33,11 +33,13 @@ for ($i = 0; $i < count($to); $i++) {
     //save linkKey to db
     $saveKeyQuery = "INSERT INTO users (userEmail, linkKey, userGroup) VALUES ('$to[$i]', '$key', '$group')";
     $conn->query($saveKeyQuery);
-    //mail($to[$i],$subject,$message, $headers);
+    mail($to[$i],$subject,$message, $headers);
 }
 
 $conn->close();
 
 echo "Test email sent";
+
+header("Location: http://localhost/OpenPaycheck/emailConfirmation.html");
 
 ?>

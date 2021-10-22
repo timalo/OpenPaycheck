@@ -55,15 +55,17 @@
                       } else {
                         echo "0 results";
                       }
-
+                
+                    // Group average salary:
+                    $i = 0;
+                    $salary = 0;
+                    $salaryResult = 0;
                     $salaryData = "SELECT salaryData FROM salary WHERE userGroup=\"$groupname\"";
                     $result = $conn->query($salaryData);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No salaryData found in database!";
+                        echo "No salaryData found in database for group average!";
                     }
-                    
                     if (mysqli_num_rows($result) > 0) {
-                        // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
                           $salary += $row["salaryData"];
                           $i += 1;
@@ -73,13 +75,43 @@
                         echo "0 results for salaryData";
                       }
 
+
+                      // Your salary
+                      $salary = 0;
+                      $yourSalaryResult = 0;
+                      $yourSalaryData = "SELECT salaryData FROM salary WHERE linkKey=\"$memberNum\"";
+                      $result = $conn->query($yourSalaryData);
+                      if(mysqli_num_rows($result) == 0) {
+                        echo "No salaryData found in database for yourSalaryData!";
+                    }
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                          $salary += $row["salaryData"];
+                        }
+                        $yourSalaryResult = $salary;
+                      } else {
+                        echo "0 results for yourSalaryData";
+                      }
+
+
+                      // Difference of group and your salary:
+                        $difference = $yourSalaryResult - $salaryResult;
+                        if ($difference > 0) {
+                            $difference = "+". $difference;
+                        }
+
+
+
+
                       echo "     <div id='content'>
                       <p>Here are the results:</p>
                       <div class='infoDiv'>
                          <p>Group average salary:</p> 
-                          <div id='average' >$salaryResult</div>
+                         <div id='average' >$salaryResult <span style='color:green;'> €</span> / month</div>
                          <p>Your salary:</p> 
-                         <div id='salary' >salary</div>
+                         <div id='salary' >$yourSalaryResult <span style='color:green;'> €</span> / month</div>
+                         <p>Difference of your and group average:</p> 
+                         <div id='salary' >$difference <span style='color:green;'> €</span> / month</div>
                       </div>
                         </div>";
 

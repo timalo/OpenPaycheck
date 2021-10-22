@@ -75,7 +75,7 @@
                         echo "0 results";
                       }
 
-                    $insert = mysqli_query($conn,"INSERT INTO `salary`(`salaryData`, `userGroup`) VALUES ('$salary','$groupname')");
+                    $insert = mysqli_query($conn,"INSERT INTO `salary`(`salaryData`, `userGroup`, linkKey) VALUES ('$salary','$groupname', '$memberNum')");
 
                     if(!$insert)
                     {
@@ -103,7 +103,7 @@
                     $from = "openpaycheck.send@gmail.com";
                     $headers = "From:" . $from;
                     $subject = "OpenPayCheck Results";
-                    $message = "Results of salary comparison of a group: $groupname can be found at: http://localhost/OpenPaycheck/results.php?num=$memberNum";
+                    $message = "Hi! \n\nThe results of salary comparison in group: $groupname can be found at: \n\nhttp://localhost/OpenPaycheck/results.php?num=$memberNum  \n\nBest Regards,\nOpenPayCheck";
                     mail($to,$subject,$message, $headers);
 
                     $conn->close();

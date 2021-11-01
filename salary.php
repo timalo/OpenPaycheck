@@ -59,25 +59,50 @@
                     if($conn ->connect_error) {
                         die("Connection failed: " .$conn->connect_error);
                     }
-                    $memberNum = $_GET["num"];
-                    $group = "SELECT userGroup FROM users WHERE linkKey=\"$memberNum\"";
-                    $result = $conn->query($group);
+
+
+
+                            // Get userGroup from db
+                            $memberNum = $_GET["num"];
+                            $userGroupQuery = "SELECT userGroup FROM users WHERE linkKey=\"$memberNum\"";
+                            $result = $conn->query($userGroupQuery);
+                            if(mysqli_num_rows($result) == 0) {
+                                echo "No group found in database!";
+                            }
+                            
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while($row = mysqli_fetch_assoc($result)) {
+                                $userGroup = $row["returnedAmount"];
+                                }
+                            } else {
+                                echo "0 results";
+                            }
+
+
+                    // Get salarySum from db
+                    
+                    $salarySumQuery = "SELECT salarySum FROM users WHERE userGroup=\"$userGroup\"";
+                    $result = $conn->query($salarySumQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No group found in database!";
                     }
-                    
                     if (mysqli_num_rows($result) > 0) {
                         // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
-                          $groupname = $row["userGroup"];
+                          $salarySum = $row["salarySum"];
                         }
                       } else {
                         echo "0 results";
                       }
 
-                    $insert = mysqli_query($conn,"INSERT INTO `salary`(`salaryData`, `userGroup`, linkKey) VALUES ('$salary','$groupname', '$memberNum')");
+                    //Add salary to salarySum and to db
+                    $userKeySalary = $_GET["x"];
+                    $salarySum += ($salary + $userKeySalary);
 
-                    if(!$insert)
+                    $updateSumQuery = mysqli_query($conn, "UPDATE users SET salarySum=$salarySum WHERE userGroup=\"$userGroup\" ");
+
+                    if(!$updateSumQuery)
                     {
                         echo "No records added!";
                     }
@@ -86,8 +111,26 @@
                         echo "Records added successfully.";
                     }
 
-                    $email_to = "SELECT userEmail FROM users WHERE linkKey=\"$memberNum\"";
-                    $result = $conn->query($email_to);
+
+                    // Get groupSize from db
+                    $groupSizeQuery = "SELECT groupSize FROM users WHERE userGroup=\"$userGroup\"";
+                    $result = $conn->query($groupSizeQuery);
+                    if(mysqli_num_rows($result) == 0) {
+                        echo "No group found in database!";
+                    }
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                          $groupSize = $row["groupSize"];
+                        }
+                      } else {
+                        echo "0 results";
+                      }
+
+
+                    // Get returnedAmount from db
+                    $returnedAmountQuery = "SELECT returnedAmount FROM users WHERE userGroup=\"$userGroup\"";
+                    $result = $conn->query($returnedAmountQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No group found in database!";
                     }
@@ -95,21 +138,65 @@
                     if (mysqli_num_rows($result) > 0) {
                         // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
-                          $to = $row["userEmail"];
+                          $returnedAmount = $row["returnedAmount"];
                         }
                       } else {
                         echo "0 results";
                       }
-                    $from = "openpaycheck.send@gmail.com";
-                    $headers = "From:" . $from;
-                    $subject = "OpenPayCheck Results";
-                    $message = "Hi! \n\nThe results of salary comparison in group: $groupname can be found at: \n\nhttp://localhost/OpenPaycheck/results.php?num=$memberNum  \n\nBest Regards,\nOpenPayCheck";
-                    mail($to,$subject,$message, $headers);
+
+                      //Add person to returnedAmount and to db
+                      $returnedAmount += 1;
+
+                      $updateReturnedAmount = mysqli_query($conn, "UPDATE users SET returnedAmount=$returnedAmount WHERE userGroup=\"$userGroup\" ");
+
+                        if(!$updateReturnedAmount)
+                        {
+                            echo "No records added!";
+                        }
+                        else
+                        {
+                            echo "Records added successfully.";
+                        }
+
+
+                        // See if everyone has returned
+                        if ($returnedAmount == $groupSize) 
+                        {
+
+                            // Get emails from db 
+                            $email_to = "SELECT userEmail FROM group WHERE userGroup=\"$userGroup\"";
+                            $result = $conn->query($email_to);
+                            if(mysqli_num_rows($result) == 0) {
+                                echo "No group found in database!";
+                            }
+                            
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while($row = mysqli_fetch_assoc($result)) {
+                                $to = $row["userEmail"];
+                                }
+                            } else {
+                                echo "0 results";
+                            }
+                            $from = "openpaycheck.send@gmail.com";
+                            $headers = "From:" . $from;
+                            $subject = "OpenPayCheck Results";
+                            $message = "Hi! \n\nThe results of salary comparison in group: $userGroup can be found at: \n\nhttp://localhost/OpenPaycheck/results.php?num=$memberNum  \n\nBest Regards,\nOpenPayCheck";
+                            mail($to,$subject,$message, $headers);
+                            echo "Everyone has returned!";   
+                            header("Location: http://localhost/OpenPaycheck/results.php?num=$memberNum");
+                            
+                            
+                        } else {
+                            echo "Everyone needs to give value before results.";
+                            }
 
                     $conn->close();
 
-                    header("Location: http://localhost/OpenPaycheck/results.php?num=$memberNum");
+                    
                 }
+
+                
                 ?>
 
                 <p>Please enter your salary information.</p>

@@ -35,13 +35,13 @@
                     
                     //check member number from link parameter
                     $memberNum = $_GET["num"];
-                    $queriedMemNum = "SELECT linkKey FROM users WHERE linkKey=\"$memberNum\"";
+                    $queriedMemNum = "SELECT linkKey FROM groups WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($queriedMemNum);
                     if(mysqli_num_rows($result) == 0) {
                         header("Location: wrongKey.html");
                     }
 
-                    $group = "SELECT userGroup FROM users WHERE linkKey=\"$memberNum\"";
+                    $group = "SELECT userGroup FROM groups WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($group);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No group found in database!";
@@ -56,26 +56,62 @@
                         echo "0 results";
                       }
                 
-                    // Group average salary:
-                    $i = 0;
-                    $salary = 0;
+                    // Get salarySum from db:
                     $salaryResult = 0;
-                    $salaryData = "SELECT salaryData FROM salary WHERE userGroup=\"$groupname\"";
-                    $result = $conn->query($salaryData);
+                    $salarySum = 0;
+                    $salarySumQuery = "SELECT salarySum FROM users WHERE userGroup=\"$groupname\"";
+                    $result = $conn->query($salarySumQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No salaryData found in database for group average!";
+                        echo "No salarySum found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
-                          $salary += $row["salaryData"];
-                          $i += 1;
+                          $salarySum += $row["salarySum"];
                         }
-                        $salaryResult = $salary / $i;
                       } else {
-                        echo "0 results for salaryData";
+                        echo "0 results for salarySum";
                       }
 
 
+
+                    // Get groupSize from db:
+                    $groupSize = 0;
+                    $groupSizeQuery = "SELECT groupSize FROM users WHERE userGroup=\"$groupname\"";
+                    $result = $conn->query($groupSizeQuery);
+                    if(mysqli_num_rows($result) == 0) {
+                        echo "No groupSize found in database for group average!";
+                    }
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                          $groupSize += $row["groupSize"];
+                        }
+                      } else {
+                        echo "0 results for groupSize";
+                      }
+
+
+                    // Get keySalary from db:
+                    $keySalary = 0;
+                    $keySalaryQuery = "SELECT keySalary FROM users WHERE userGroup=\"$groupname\"";
+                    $result = $conn->query($keySalaryQuery);
+                    if(mysqli_num_rows($result) == 0) {
+                        echo "No keySalary found in database for group average!";
+                    }
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                          $keySalary += $row["keySalary"];
+                        }
+                      } else {
+                        echo "0 results for keySalary";
+                      }
+
+
+                      // Count average salary:
+                      $salaryResult = 0;
+                      $salaryResult = ($salarySum - $keySalary) / $groupSize;
+
+
+/*
                       // Your salary
                       $salary = 0;
                       $yourSalaryResult = 0;
@@ -100,7 +136,7 @@
                             $difference = "+". $difference;
                         }
 
-
+*/
 
 
                       echo "     <div id='content'>
@@ -109,9 +145,9 @@
                          <p>Group average salary:</p> 
                          <div id='average' >$salaryResult <span style='color:green;'> €</span> / month</div>
                          <p>Your salary:</p> 
-                         <div id='salary' >$yourSalaryResult <span style='color:green;'> €</span> / month</div>
+                         <div id='salary' >yourSalaryResult <span style='color:green;'> €</span> / month</div>
                          <p>Difference of your and group average:</p> 
-                         <div id='salary' >$difference <span style='color:green;'> €</span> / month</div>
+                         <div id='salary' >difference <span style='color:green;'> €</span> / month</div>
                       </div>
                         </div>";
 

@@ -31,7 +31,7 @@ for ($i = 0; $i < count($to); $i++) {
     $key = md5((uniqid()));
 
     //save emails and group to db
-    $saveEmailsQuery = "INSERT INTO group (userEmail, userGroup, linkKey) VALUES ('$to[$i]', '$group', '$key')";
+    $saveEmailsQuery = "INSERT INTO groups (userEmail, userGroup, linkKey) VALUES ('$to[$i]', '$group', '$key')";
     $conn->query($saveEmailsQuery);
 
     $message = "Hi! \n\nYou have been invited to compare salary information in a group: $group  \nFollow this link to give your information:\n\nhttp://localhost/OpenPaycheck/salary.php?num=$key&x=$personKeySalary  \n\nBest Regards,\nOpenPayCheck";
@@ -39,7 +39,7 @@ for ($i = 0; $i < count($to); $i++) {
 }
 
 //save linkKey and salary to db
-$saveKeyQuery = "INSERT INTO users (salarySum, userGroup, groupSize, returnedAmount, keySalary) VALUES ('$salarySum', '$group', '$group_size', '$returnedAmount', '$keySalary )";
+$saveKeyQuery = "INSERT INTO users (salarySum, userGroup, groupSize, returnedAmount, keySalary) VALUES ('$salarySum', '$group', '$group_size', '$returnedAmount', '$keySalary' )";
 $conn->query($saveKeyQuery);
 
 

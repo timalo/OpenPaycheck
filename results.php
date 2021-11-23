@@ -90,25 +90,27 @@
                       }
 
 
-                    // Get keySalary from db:
-                    $keySalary = 0;
-                    $keySalaryQuery = "SELECT keySalary FROM users WHERE userGroup=\"$groupname\"";
+                    // Get shares from db:
+                    $shares = [];
+                    $sharesQuery = "SELECT personKeyPiece FROM shares WHERE userGroup=\"$groupname\"";
                     $result = $conn->query($keySalaryQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No keySalary found in database for group average!";
+                        echo "No shares found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
-                          $keySalary += $row["keySalary"];
+                          array_push($shares, $row["personKeyPiece"];
                         }
                       } else {
-                        echo "0 results for keySalary";
+                        echo "0 results for shares";
                       }
+
+                      $secret = $scheme->recoverSecret($shares);
 
 
                       // Count average salary:
                       $salaryResult = 0;
-                      $salaryResult = ($salarySum - $keySalary) / $groupSize;
+                      $salaryResult = ($salarySum - $secret) / $groupSize;
 
 
 /*

@@ -162,6 +162,13 @@
                         }
 
 
+                        // Add personKeyPiece to shares
+                        $userNum = $_GET["z"];
+                        $personKeyPiece = $_GET["y"];
+                        $saveSharesQuery = "UPDATE shares WHERE personKeyPiece=$personKeyPiece WHERE userGroup=\"$userGroup\" AND userNum=$userNum";
+                        $conn->query($saveSharesQuery);
+
+
                         // See if everyone has returned
                         if ($returnedAmount == $groupSize) 
                         {

@@ -41,6 +41,19 @@
                         header("Location: wrongKey.html");
                     }
 
+                    //check if user has already returned
+                    $memberNum = $_GET["num"];
+                    $queriedMemReturned = "SELECT hasReturned FROM groups WHERE linkKey=\"$memberNum\"";
+                    $result = $conn->query($queriedMemReturned);
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $hasReturned = $row["hasReturned"];
+                        }
+                        if ($hasReturned == 1) {
+                            header("Location: wrongKey.html");
+                        }              
+                    }
+
                     $conn->close();
                 ?>
 
@@ -111,6 +124,20 @@
                     {
                         echo "Records for salarySum added successfully.\n";
                     }
+
+
+                    //Update to db that user has returned
+                    $memberNum = $_GET["num"];
+                    $updateHasReturned = mysqli_query($conn, "UPDATE groups SET hasReturned=1 WHERE linkKey=\"$memberNum\" ");
+                    
+                    if(!$updateHasReturned)
+                        {
+                           echo "No records added!\n";
+                        }
+                        else
+                        {
+                        echo "Records for hasReturned added successfully.\n";
+                        }
 
 
                     // Get groupSize from db

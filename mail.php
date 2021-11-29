@@ -18,6 +18,7 @@ $salarySum = 0;
 $group_size = 0;
 $returnedAmount = 0;
 $personkeySalaries = [];
+$hasReturned = 0;
 $headers = "From:" . $from;
 
 //Connect to database
@@ -50,13 +51,13 @@ $shares = $scheme->initialShares($secret, $requiredShares, $initialShares);
 
 for ($i = 0; $i < count($to); $i++) {
     //generate unique user key
-    $key = md5((uniqid()));
+    $key = hash('sha256', uniqid());
     $personKeyValue = ($shares[$i+1])->value(); //use share class value function in order to assign the secret value
     $personKeyNumber = ($shares[$i+1])->number(); //same for number
     $personKeySalary = $personkeySalaries[$i];
 
     //save emails and group to db
-    $saveEmailsQuery = "INSERT INTO groups (userEmail, userGroup, linkKey) VALUES ('$to[$i]', '$group', '$key')";
+    $saveEmailsQuery = "INSERT INTO groups (userEmail, userGroup, linkKey, hasReturned) VALUES ('$to[$i]', '$group', '$key', '$hasReturned')";
     $conn->query($saveEmailsQuery);
 
     //save userNum and group to db

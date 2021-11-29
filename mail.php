@@ -1,5 +1,9 @@
 <?php
 
+require('Scheme.php');
+require('Share.php');
+require('FiniteFieldLagrange.php');
+
 $to = $_POST['email'];
 $from = "openpaycheck.send@gmail.com";
 $subject = "OpenPayCheck Invitation";
@@ -37,7 +41,7 @@ for ($i = 0; $i < count($to); $i++) {
     $group_size += 1;
 }
 
-$secret = gmp_import($keySalary);
+$secret = gmp_init($keySalary);
 $requiredShares = $group_size; // k
 $initialShares = $group_size;  // n
 
@@ -45,9 +49,10 @@ $scheme = new \SSSS\Scheme($prime);
 $shares = $scheme->initialShares($secret, $requiredShares, $initialShares);
 
 for ($i = 0; $i < count($to); $i++) {
-
+    //generate unique user key
     $key = md5((uniqid()));
-    $personKeyPiece = $shares[$i];
+    $personKeyValue = ($shares[$i+1])->value(); //use share class value function in order to assign the secret value
+    $personKeyNumber = ($shares[$i+1])->number(); //same for number
     $personKeySalary = $personkeySalaries[$i];
 
     //save emails and group to db
@@ -55,26 +60,21 @@ for ($i = 0; $i < count($to); $i++) {
     $conn->query($saveEmailsQuery);
 
     //save userNum and group to db
-    $saveSharesQuery = "INSERT INTO shares (userNum, userGroup) VALUES ('$i', '$group')";
+    $j = $i + 1; //start userNums from 1, since share class starts user numbers from 1
+    $saveSharesQuery = "INSERT INTO shares (userNum, userGroup) VALUES ('$j', '$group')"; //save userNum and group to database, no userKeyValue yet, since we get that later in the salary submit
     $conn->query($saveSharesQuery);
 
-
-    $message = "Hi! \n\nYou have been invited to compare salary information in a group: $group  \nFollow this link to give your information:\n\nhttp://localhost/OpenPaycheck/salary.php?num=$key&x=$personKeySalary&y=$personkeyPiece&z=$i  \n\nBest Regards,\nOpenPayCheck";
+    //send email
+    $message = "Hi! \n\nYou have been invited to compare salary information in a group: $group  \nFollow this link to give your information:\n\nhttp://localhost/OpenPaycheck/salary.php?num=$key&x=$personKeySalary&y=$personKeyValue&z=$personKeyNumber  \n\nBest Regards,\nOpenPayCheck";
     mail($to[$i],$subject,$message, $headers);
 }
 
 
 //save linkKey and salary to db
-$saveKeyQuery = "INSERT INTO users (salarySum, userGroup, groupSize, returnedAmount, keySalary) VALUES ('$salarySum', '$group', '$group_size', '$returnedAmount', '$keySalary' )";
+$saveKeyQuery = "INSERT INTO users (salarySum, userGroup, groupSize, returnedAmount) VALUES ('$salarySum', '$group', '$group_size', '$returnedAmount')";
 $conn->query($saveKeyQuery);
 
-
-
-
-
-
 $conn->close();
-
 
 header("Location: http://localhost/OpenPaycheck/emailConfirmation.html");
 

@@ -61,24 +61,24 @@
                     }
 
 
-
-                            // Get userGroup from db
-                            $memberNum = $_GET["num"];
-                            echo $memberNum;
-                            $userGroupQuery = "SELECT userGroup FROM groups WHERE linkKey=\"$memberNum\"";
-                            $result = $conn->query($userGroupQuery);
-                            if(mysqli_num_rows($result) == 0) {
-                                echo "No userGroup found in database!\n";
-                            }
-                            
-                            if (mysqli_num_rows($result) > 0) {
-                                // output data of each row
-                                while($row = mysqli_fetch_assoc($result)) {
-                                $userGroup = $row["userGroup"];
-                                }
-                            } else {
-                                echo "0 results userGroup\n";
-                            }
+                    // Get userGroup from db
+                    $memberNum = $_GET["num"];
+                    echo $memberNum;
+                    $userGroupQuery = "SELECT userGroup FROM groups WHERE linkKey=\"$memberNum\"";
+                    $result = $conn->query($userGroupQuery);
+                    if(mysqli_num_rows($result) == 0) {
+                        echo "No userGroup found in database!\n";
+                    }
+                    
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $userGroup = $row["userGroup"];
+                        }
+                    }
+                    else {
+                        echo "0 results userGroup\n";
+                    }
 
 
                     // Get salarySum from db
@@ -162,10 +162,10 @@
                         }
 
 
-                        // Add personKeyPiece to shares
+                        // Add personKeyPieceValue to shares
                         $userNum = $_GET["z"];
                         $personKeyPiece = $_GET["y"];
-                        $saveSharesQuery = "UPDATE shares WHERE personKeyPiece=$personKeyPiece WHERE userGroup=\"$userGroup\" AND userNum=$userNum";
+                        $saveSharesQuery = "UPDATE shares SET personKeyPiece=$personKeyPiece WHERE userGroup=\"$userGroup\" AND userNum=$userNum";
                         $conn->query($saveSharesQuery);
 
 

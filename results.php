@@ -21,11 +21,21 @@
             </div>
             <div id="content">
                 <?php
+                    require('\lib\Scheme.php');
+                    require('\lib\Share.php');
+                    require('\lib\FiniteFieldLagrange.php');
+                    //Shamir's Secret Sharing implementation
+                    //https://github.com/lt/PHP-Shamirs
+
                     //Connect to database
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
                     $dbname = "test";
+
+                    // (2**128)+51 - Smallest prime that covers all 128 bit secrets (i.e. AES keys)
+                    const P128 = '0x100000000000000000000000000000033';
+                    $prime = gmp_init(P128);
 
                     $conn = new mysqli($servername, $username, $password, $dbname);
                     if($conn ->connect_error) {
@@ -73,7 +83,6 @@
                       }
 
 
-
                     // Get groupSize from db:
                     $groupSize = 0;
                     $groupSizeQuery = "SELECT groupSize FROM users WHERE userGroup=\"$groupname\"";
@@ -91,26 +100,56 @@
 
 
                     // Get shares from db:
-                    $shares = [];
-                    $sharesQuery = "SELECT personKeyPiece FROM shares WHERE userGroup=\"$groupname\"";
-                    $result = $conn->query($keySalaryQuery);
+                    $shareValues = [];
+                    $shareNumbers = [];
+                    $shares = []; //The final list with share objects in it
+                    $shareValueQuery = "SELECT personKeyPiece FROM shares WHERE userGroup=\"$groupname\"";
+                    $result = $conn->query($shareValueQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No shares found in database for group average!";
+                        echo "No shareValues found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
-                          array_push($shares, $row["personKeyPiece"];
+                          array_push($shareValues, $row["personKeyPiece"]);
                         }
-                      } else {
-                        echo "0 results for shares";
-                      }
+                    } else {
+                      echo "0 results for shares";
+                    }
 
-                      $secret = $scheme->recoverSecret($shares);
+                    $shareNumQuery = "SELECT userNum FROM shares WHERE userGroup=\"$groupname\"";
+                    $result = $conn->query($shareNumQuery);
+                    if(mysqli_num_rows($result) == 0) {
+                        echo "No shareNums found in database for group average!";
+                    }
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                          array_push($shareNumbers, $row["userNum"]);
+                        }
+                    } else {
+                      echo "0 results for shares";
+                    }
+                    
+                    for($i = 0; $i < count($shareValues); $i++) {
+                      $newShareValue = gmp_init($shareValues[$i]);
+                      $newShareNum = ($shareNumbers[$i]);
 
+                      $newShare = new \SSSS\Share($newShareNum, $newShareValue);
+                      array_push($shares, $newShare);
+                    }
+                    
 
-                      // Count average salary:
-                      $salaryResult = 0;
-                      $salaryResult = ($salarySum - $secret) / $groupSize;
+                    $scheme = new \SSSS\Scheme($prime);
+
+                    $secret = $scheme->recoverSecret($shares);
+                    $secretInt = gmp_intval($secret);
+
+                    // echo($secret);
+                    // echo("<br>");
+                    // echo($secretInt);
+
+                    // Count average salary:
+                    $salaryResult = 0;
+                    $salaryResult = ($salarySum - $secretInt) / $groupSize;
 
 
 /*
@@ -145,13 +184,7 @@
                       <p>Here are the results:</p>
                       <div class='infoDiv'>
                          <p>Group average salary:</p> 
-                         <div id='average' >$salaryResult <span style='color:green;'> €</span> / month</div>
-                         <p>Your salary:</p> 
-                         <div id='salary' >yourSalaryResult <span style='color:green;'> €</span> / month</div>
-                         <p>Difference of your and group average:</p> 
-                         <div id='salary' >difference <span style='color:green;'> €</span> / month</div>
-                      </div>
-                        </div>";
+                         <div id='average' >$salaryResult <span style='color:green;'> €</span> / month</div>";
 
                     $conn->close();
                 ?>

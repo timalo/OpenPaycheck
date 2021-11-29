@@ -21,9 +21,9 @@
             </div>
             <div id="content">
                 <?php
-                    require('\lib\Scheme.php');
-                    require('\lib\Share.php');
-                    require('\lib\FiniteFieldLagrange.php');
+                    require('Scheme.php');
+                    require('Share.php');
+                    require('FiniteFieldLagrange.php');
                     //Shamir's Secret Sharing implementation
                     //https://github.com/lt/PHP-Shamirs
 
@@ -45,13 +45,13 @@
                     
                     //check member number from link parameter
                     $memberNum = $_GET["num"];
-                    $queriedMemNum = "SELECT linkKey FROM groups WHERE linkKey=\"$memberNum\"";
+                    $queriedMemNum = "SELECT linkKey FROM users WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($queriedMemNum);
                     if(mysqli_num_rows($result) == 0) {
                         header("Location: wrongKey.html");
                     }
 
-                    $group = "SELECT userGroup FROM groups WHERE linkKey=\"$memberNum\"";
+                    $group = "SELECT groupID FROM users WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($group);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No group found in database!";
@@ -60,7 +60,7 @@
                     if (mysqli_num_rows($result) > 0) {
                         // output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
-                          $groupname = $row["userGroup"];
+                          $groupID = $row["groupID"];
                         }
                       } else {
                         echo "0 results";
@@ -69,7 +69,7 @@
                     // Get salarySum from db:
                     $salaryResult = 0;
                     $salarySum = 0;
-                    $salarySumQuery = "SELECT salarySum FROM users WHERE userGroup=\"$groupname\"";
+                    $salarySumQuery = "SELECT salarySum FROM groups WHERE groupID=\"$groupID\"";
                     $result = $conn->query($salarySumQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No salarySum found in database for group average!";
@@ -85,7 +85,7 @@
 
                     // Get groupSize from db:
                     $groupSize = 0;
-                    $groupSizeQuery = "SELECT groupSize FROM users WHERE userGroup=\"$groupname\"";
+                    $groupSizeQuery = "SELECT groupSize FROM groups WHERE groupID=\"$groupID\"";
                     $result = $conn->query($groupSizeQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No groupSize found in database for group average!";
@@ -103,7 +103,7 @@
                     $shareValues = [];
                     $shareNumbers = [];
                     $shares = []; //The final list with share objects in it
-                    $shareValueQuery = "SELECT personKeyPiece FROM shares WHERE userGroup=\"$groupname\"";
+                    $shareValueQuery = "SELECT personKeyPiece FROM shares WHERE groupID=\"$groupID\"";
                     $result = $conn->query($shareValueQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No shareValues found in database for group average!";
@@ -116,7 +116,7 @@
                       echo "0 results for shares";
                     }
 
-                    $shareNumQuery = "SELECT userNum FROM shares WHERE userGroup=\"$groupname\"";
+                    $shareNumQuery = "SELECT userNum FROM shares WHERE groupID=\"$groupID\"";
                     $result = $conn->query($shareNumQuery);
                     if(mysqli_num_rows($result) == 0) {
                         echo "No shareNums found in database for group average!";
@@ -132,7 +132,6 @@
                     for($i = 0; $i < count($shareValues); $i++) {
                       $newShareValue = gmp_init($shareValues[$i]);
                       $newShareNum = ($shareNumbers[$i]);
-
                       $newShare = new \SSSS\Share($newShareNum, $newShareValue);
                       array_push($shares, $newShare);
                     }
@@ -143,7 +142,7 @@
                     $secret = $scheme->recoverSecret($shares);
                     $secretInt = gmp_intval($secret);
 
-                    // echo($secret);
+                    //echo($secret);
                     // echo("<br>");
                     // echo($secretInt);
 

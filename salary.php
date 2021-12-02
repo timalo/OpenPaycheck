@@ -224,7 +224,10 @@
                                 // See if everyone has returned
                                 if ($returnedAmount == $groupSize) 
                                 {
-
+                                    $from = "openpaycheck.send@gmail.com";
+                                    $headers = "From:" . $from;
+                                    $subject = "OpenPayCheck Results";
+                                    $message = "Hi! \n\nThe results of salary comparison in group: $groupName can be found at: \n\nhttp://localhost/OpenPaycheck/results.php?num=$memberNum  \n\nBest Regards,\nOpenPayCheck";
                                     // Get emails from db 
                                     $email_to = "SELECT userEmail FROM users WHERE groupID=\"$userGroupID\"";
                                     $result = $conn->query($email_to);
@@ -235,17 +238,13 @@
                                     if (mysqli_num_rows($result) > 0) {
                                         // output data of each row
                                         while($row = mysqli_fetch_assoc($result)) {
-                                        $to = $row["userEmail"];
+                                            $to = $row["userEmail"];
+                                            mail($to,$subject,$message, $headers);
                                         }
                                     } else {
                                         echo "0 results for userEmail\n";
                                     }
 
-                                    $from = "openpaycheck.send@gmail.com";
-                                    $headers = "From:" . $from;
-                                    $subject = "OpenPayCheck Results";
-                                    $message = "Hi! \n\nThe results of salary comparison in group: $groupName can be found at: \n\nhttp://localhost/OpenPaycheck/results.php?num=$memberNum  \n\nBest Regards,\nOpenPayCheck";
-                                    mail($to,$subject,$message, $headers);
                                     echo "Everyone has returned!";   
                                     header("Location: http://localhost/OpenPaycheck/results.php?num=$memberNum");
                                     

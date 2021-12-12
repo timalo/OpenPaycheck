@@ -36,10 +36,10 @@ h1 {
 #content {
     background-color: rgb(90, 100, 110);
     height: 100%;
-    width: 90%;
+    width: 100%;
     text-align: center;
     position: relative;
-    border: solid black 3px;
+    border: solid black 2px;
 }
 
 #hoursPerWeek {

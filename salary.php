@@ -254,9 +254,9 @@
                 <p>Please enter your salary information.</p>
                 <div class="infoDiv">
                     <div id="infoContent">
-                        Enter your salary as hourly, monthly, or yearly wage.<br>
+                        Enter your monthly salary rounded to nearest integer number.<br>
                         <form method="POST" id="salaryInputDiv">
-                            <input type="number" id="salaryInput" name="salary" min=0 step=50> <span style="color:green;"> € / month</span> </br>
+                            <input type="number" id="salaryInput" name="salary" min=0 step=1> <span style="color:green;"> € / month</span> </br>
                             <input type="submit" name="submit" value="Submit">
                         </form>
                     </div>

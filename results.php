@@ -8,17 +8,6 @@
     <body>
         <h1><a href="index.html" class="frontPageLink">OpenPayCheck</a></h1>
         <div id="container">
-            <div id="sidebar">
-                <div id="menuItem1" class="menuItem">
-                    Menuitem
-                </div>
-                <div id="menuItem2" class="menuItem">
-                    Menuitem 2
-                </div>
-                <div id="menuItem2" class="menuItem">
-                    Test menuitem 3
-                </div>
-            </div>
             <div id="content">
                 <?php
                     require('Scheme.php');
@@ -54,7 +43,7 @@
                     $group = "SELECT groupID FROM users WHERE linkKey=\"$memberNum\"";
                     $result = $conn->query($group);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No group found in database!";
+                       // echo "No group found in database!";
                     }
                     
                     if (mysqli_num_rows($result) > 0) {
@@ -63,7 +52,7 @@
                           $groupID = $row["groupID"];
                         }
                       } else {
-                        echo "0 results";
+                       // echo "0 results";
                       }
                 
                     // Get salarySum from db:
@@ -72,14 +61,14 @@
                     $salarySumQuery = "SELECT salarySum FROM groups WHERE groupID=\"$groupID\"";
                     $result = $conn->query($salarySumQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No salarySum found in database for group average!";
+                      //  echo "No salarySum found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                           $salarySum += $row["salarySum"];
                         }
                       } else {
-                        echo "0 results for salarySum";
+                       // echo "0 results for salarySum";
                       }
 
 
@@ -88,14 +77,14 @@
                     $groupSizeQuery = "SELECT groupSize FROM groups WHERE groupID=\"$groupID\"";
                     $result = $conn->query($groupSizeQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No groupSize found in database for group average!";
+                       // echo "No groupSize found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                           $groupSize += $row["groupSize"];
                         }
                       } else {
-                        echo "0 results for groupSize";
+                        // echo "0 results for groupSize";
                       }
 
 
@@ -106,27 +95,27 @@
                     $shareValueQuery = "SELECT personKeyPiece FROM shares WHERE groupID=\"$groupID\"";
                     $result = $conn->query($shareValueQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No shareValues found in database for group average!";
+                        // echo "No shareValues found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                           array_push($shareValues, $row["personKeyPiece"]);
                         }
                     } else {
-                      echo "0 results for shares";
+                      // echo "0 results for shares";
                     }
 
                     $shareNumQuery = "SELECT userNum FROM shares WHERE groupID=\"$groupID\"";
                     $result = $conn->query($shareNumQuery);
                     if(mysqli_num_rows($result) == 0) {
-                        echo "No shareNums found in database for group average!";
+                        // echo "No shareNums found in database for group average!";
                     }
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                           array_push($shareNumbers, $row["userNum"]);
                         }
                     } else {
-                      echo "0 results for shares";
+                      // echo "0 results for shares";
                     }
                     
                     for($i = 0; $i < count($shareValues); $i++) {
@@ -142,41 +131,12 @@
                     $secret = $scheme->recoverSecret($shares);
                     $secretInt = gmp_intval($secret);
 
-                    //echo($secret);
-                    // echo("<br>");
-                    // echo($secretInt);
 
                     // Count average salary:
                     $salaryResult = 0;
                     $salaryResult = ($salarySum - $secretInt) / $groupSize;
 
 
-/*
-                      // Your salary
-                      $salary = 0;
-                      $yourSalaryResult = 0;
-                      $yourSalaryData = "SELECT salaryData FROM salary WHERE linkKey=\"$memberNum\"";
-                      $result = $conn->query($yourSalaryData);
-                      if(mysqli_num_rows($result) == 0) {
-                        echo "No salaryData found in database for yourSalaryData!";
-                    }
-                    if (mysqli_num_rows($result) > 0) {
-                        while($row = mysqli_fetch_assoc($result)) {
-                          $salary += $row["salaryData"];
-                        }
-                        $yourSalaryResult = $salary;
-                      } else {
-                        echo "0 results for yourSalaryData";
-                      }
-
-
-                      // Difference of group and your salary:
-                        $difference = $yourSalaryResult - $salaryResult;
-                        if ($difference > 0) {
-                            $difference = "+". $difference;
-                        }
-
-*/
 
 
                       echo "     <div id='content'>

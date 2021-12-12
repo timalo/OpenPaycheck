@@ -8,17 +8,6 @@
     <body>
         <h1><a href="index.html" class="frontPageLink">OpenPayCheck</a></h1>
         <div id="container">
-            <div id="sidebar">
-                <div id="menuItem1" class="menuItem">
-                    Menuitem
-                </div>
-                <div id="menuItem2" class="menuItem">
-                    Menuitem 2
-                </div>
-                <div id="menuItem2" class="menuItem">
-                    Test menuitem 3
-                </div>
-            </div>
             <div id="content">
                 <?php
                     //Connect to database
@@ -50,7 +39,7 @@
                             $hasReturned = $row["hasReturned"];
                         }
                         if ($hasReturned == 1) {
-                            header("Location: wrongKey.html");
+                            header("Location: returned.html");
                         }              
                     }
 
@@ -87,11 +76,11 @@
                         else{
                             // Get userGroup ID from db
                             $memberNum = $_GET["num"];
-                            echo $memberNum;
+                            //echo $memberNum;
                             $userGroupQuery = "SELECT groupID FROM users WHERE linkKey=\"$memberNum\"";
                             $result = $conn->query($userGroupQuery);
                             if(mysqli_num_rows($result) == 0) {
-                                echo "No userGroup found in database!\n";
+                              //  echo "No userGroup found in database!\n";
                             }
                             
                             if (mysqli_num_rows($result) > 0) {
@@ -101,7 +90,7 @@
                                 }
                             }
                             else {
-                                echo "0 results userGroup\n";
+                             //   echo "0 results userGroup\n";
                             }
 
 
@@ -110,7 +99,7 @@
                             $salarySumQuery = "SELECT salarySum FROM groups WHERE groupID=\"$userGroupID\"";
                             $result = $conn->query($salarySumQuery);
                             if(mysqli_num_rows($result) == 0) {
-                                echo "No salarySum found in database!\n";
+                              //  echo "No salarySum found in database!\n";
                             }
                             if (mysqli_num_rows($result) > 0) {
                                 // output data of each row
@@ -118,7 +107,7 @@
                                     $salarySum = $row["salarySum"];
                                 }
                             } else {
-                                echo "0 results for salarySum\n";
+                               // echo "0 results for salarySum\n";
                             }
 
                             //Add salary to salarySum and to db
@@ -129,11 +118,11 @@
 
                             if(!$updateSumQuery)
                             {
-                                echo "No records added!\n";
+                               // echo "No records added!\n";
                             }
                             else
                             {
-                                echo "Records for salarySum added successfully.\n";
+                              //  echo "Records for salarySum added successfully.\n";
                             }
 
 
@@ -143,11 +132,11 @@
                             
                             if(!$updateHasReturned)
                                 {
-                                echo "No records added!\n";
+                               // echo "No records added!\n";
                                 }
                                 else
                                 {
-                                echo "Records for hasReturned added successfully.\n";
+                               // echo "Records for hasReturned added successfully.\n";
                                 }
 
 
@@ -156,7 +145,7 @@
                             $groupSizeQuery = "SELECT groupSize FROM groups WHERE groupID=\"$userGroupID\"";
                             $result = $conn->query($groupSizeQuery);
                             if(mysqli_num_rows($result) == 0) {
-                                echo "No groupSize found in database!\n";
+                               // echo "No groupSize found in database!\n";
                             }
                             if (mysqli_num_rows($result) > 0) {
                                 // output data of each row
@@ -164,14 +153,14 @@
                                 $groupSize = $row["groupSize"];
                                 }
                             } else {
-                                echo "0 results groupSize\n";
+                              //  echo "0 results groupSize\n";
                             }
 
                             // get groupName from db
                             $groupNameQuery = "SELECT userGroup FROM groups WHERE groupID=\"$userGroupID\"";
                             $result = $conn->query($groupNameQuery);
                             if(mysqli_num_rows($result) == 0) {
-                                echo "No userGroup found in database!\n";
+                              //  echo "No userGroup found in database!\n";
                             }
                             if (mysqli_num_rows($result) > 0) {
                                 // output data of each row
@@ -179,7 +168,7 @@
                                 $groupName = $row["userGroup"];
                                 }
                             } else {
-                                echo "0 results groupSize\n";
+                               // echo "0 results groupSize\n";
                             }
 
                             // Get returnedAmount from db
@@ -187,7 +176,7 @@
                             $returnedAmountQuery = "SELECT returnedAmount FROM groups WHERE groupID=\"$userGroupID\"";
                             $result = $conn->query($returnedAmountQuery);
                             if(mysqli_num_rows($result) == 0) {
-                                echo "No returnedAmount found in database!\n";
+                               // echo "No returnedAmount found in database!\n";
                             }
                             
                             if (mysqli_num_rows($result) > 0) {
@@ -196,7 +185,7 @@
                                     $returnedAmount = $row["returnedAmount"];
                                 }
                             } else {
-                                echo "0 results returnedAmount\n";
+                               // echo "0 results returnedAmount\n";
                             }
 
                             //Add person to returnedAmount and to db
@@ -206,11 +195,11 @@
 
                                 if(!$updateReturnedAmount)
                                 {
-                                    echo "No records added!\n";
+                                  //  echo "No records added!\n";
                                 }
                                 else
                                 {
-                                    echo "Records for returnedAmount added successfully.\n";
+                                  //  echo "Records for returnedAmount added successfully.\n";
                                 }
 
 
@@ -232,7 +221,7 @@
                                     $email_to = "SELECT userEmail FROM users WHERE groupID=\"$userGroupID\"";
                                     $result = $conn->query($email_to);
                                     if(mysqli_num_rows($result) == 0) {
-                                        echo "No userEmail found in database!\n";
+                                       // echo "No userEmail found in database!\n";
                                     }
                                     
                                     if (mysqli_num_rows($result) > 0) {
@@ -242,15 +231,16 @@
                                             mail($to,$subject,$message, $headers);
                                         }
                                     } else {
-                                        echo "0 results for userEmail\n";
+                                       // echo "0 results for userEmail\n";
                                     }
 
-                                    echo "Everyone has returned!";   
+                                   // echo "Everyone has returned!";   
                                     header("Location: http://localhost/OpenPaycheck/results.php?num=$memberNum");
                                     
                                     
                                 } else {
-                                    echo "Everyone needs to give value before results.";
+                                    header("Location: returned.html");
+                                    //echo "Everyone needs to give value before results.";
                                     }
 
                             $conn->close();
@@ -266,18 +256,8 @@
                     <div id="infoContent">
                         Enter your salary as hourly, monthly, or yearly wage.<br>
                         <form method="POST" id="salaryInputDiv">
-                            <input type="number" id="salaryInput" name="salary" min=0 step=50> <span style="color:green;"> €</span> / 
-                            <select name="salaryTime" id="salaryTime" onchange="toggleHours()">
-                                <option value="hour">Hour</option>
-                                <option selected value="month">Month</option>
-                                <option value="year">Year</option>
-                            </select> </br>
-                            <div id="hoursPerWeek" style="font-size: 22">
-                                How many hours per month do you work?<br>
-                                <input type="number" min=1 style="width:15%; margin-top: 10px"> h
-                            </div> 
+                            <input type="number" id="salaryInput" name="salary" min=0 step=50> <span style="color:green;"> € / month</span> </br>
                             <input type="submit" name="submit" value="Submit">
-                            <!-- <button onclick="handleSalary()" id="submitSalaryBtn">Submit</button> -->
                         </form>
                     </div>
                 </div>
